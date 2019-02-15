@@ -84,12 +84,18 @@ export class ClientsComponent implements OnInit {
                 let clientsDAO = new ClientsDAO(transaction);
                 let productsDAO = new ProductsDAO(transaction);
 
-                clientsDAO.insert({ name: 'new client', address: 'brazil' });
-                clientsDAO.insert({ name: 'new client', address: 'japan' });
-                productsDAO.save({id: 10, name: 'update product 10', price: 22.50 });
-
-                //if you want cancel all operations
-                transaction.abort();
+                Promise.all([
+                    clientsDAO.insert({ name: 'new client', address: 'brazil' }),
+                    clientsDAO.insert({ name: 'new client', address: 'japan' }),
+                    productsDAO.save({ id: 10, name: 'update product 10', price: 22.50 })
+                ])
+                    .then(success => {
+                        //if you want cancel all operations
+                        transaction.abort();
+                    })
+                    .catch(error => {
+                        //indexedDb onerror then abort is auto call, do not need use transaction.abort()
+                    });
             });
     }
 
