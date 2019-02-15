@@ -5,7 +5,7 @@ The community development is apreciate, please help-me to improve it.
 
 Examples:
 
-```javascript
+```typescript
 
 import { Component, OnInit } from '@angular/core';
 import { MyDatabaseService } from '../core/indexedDb/myDatabase.service';
